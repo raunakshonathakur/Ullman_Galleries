@@ -1,0 +1,99 @@
+databases:
+  advancement: "data/advancement.sqlite"
+  
+# For every table in the database, add an item here
+models:
+  mainDB:
+    - User
+    - Form
+    - Requestor
+    - StaffAssigned
+    - StaffNotes
+    
+paths:
+  files: 'app/static/files'
+  
+navbar:
+  - title: "Archive" 
+    link: '/archive'
+  - title: "New Request"
+    link: "/form"
+  - title: "Contact Us"
+    link: "/contact"
+  - title: "Log Out"
+    link: "/logout/goes/here"
+  
+  
+admin_navbar:
+  - title: "Administrative Panel"
+    link: "/adminPanel"
+  - title: "Archive"
+    link: "/archive"
+  - title: "New Request"
+    link: "/form"
+  - title: "Log Out"
+    link: "/logout/goes/here"
+  
+requestStatus:
+  new: 'New'
+  inProgress: 'In Progress'
+  complete: 'Completed'
+  cancel: 'Cancelled'
+  
+extra_groups:
+  alumni_trustees: 'Alumni Trustees'
+  non_alumni_trustees: 'Non-Alumni Trustees'
+  staff_seed: 'Staff Seed File'
+  council_members: 'Young Alumni Advisory Council'
+  alumni_exec: 'Alumni Executive Council'
+  
+excluded_groups:
+  mail: 'No Mail'
+  visit: 'No Visit'
+  contact: 'No Contact'
+  phone_one: 'No Phone'
+  deceased: 'Deceased'
+  unknown_postal: 'Unknown Postal'
+  international: 'International Address'
+  inactive: 'Inactive Address'
+  
+format_type:
+  xlsx: '.xlsx'
+  txt: '.txt'
+  doc: '.doc'
+  pdf: '.pdf'
+  csv: '.csv'
+
+
+user:
+  # USER
+  #tmp: 'pearcej'
+  # #ADMIN
+  tmp: 'myersco'
+  
+contributors:
+  - name: "Cody Myers"
+    year: 2017
+  - name: "Guillermo Ramos"
+    year: 2018
+  - name: "Sarah Watts"
+    year: 2018
+  - name: "Jose Zindia"
+    year: 2018
+  - name: "Jonathan Chauwa"
+    year: 2019
+  - name: "Kenny Nelson"
+    year: 2019
+  - name: "Sher Sanginov"
+    year: 2019
+  - name: "Evan Johnson"
+    year: 2019
+
+contact_list:
+  - name: "Contact One"
+    email: "contactone@gmail.com"
+  - name: "Contact Two"
+    email: "contacttwo@gmail.com"
+  - name: "Contact Three"
+    email: "contactthree@gmail.com"
+  
