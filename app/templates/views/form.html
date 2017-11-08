@@ -1,0 +1,288 @@
+{% extends "snips/base.html" %}
+{% block body %}
+<br/>
+<center><h2>Request Form</h2></center>
+<form id = "userForm" action="/form/submit" name = "userForm" method = "POST"  class = "center">
+  <div class = "col-lg-offset-3 col-lg-6">
+  <u><h4>Requestor Info</h4></u>
+  </div>
+  <div class="form-group col-lg-offset-3 col-lg-6" id = "numberDiv">
+    <label for="phone" class="required-asterisk">Extension/Contact Number</label>
+    <p class="help-block">What extension or number should we use to contact you?</p>
+    <input type="number"name="phone" id="phone" class="form-control" step = "0" 
+      {% if form is defined %}
+        value="{{ form.phone }}"
+      {% endif %}
+      required
+    />
+  </div>
+  
+  <div class="form-group  col-lg-offset-3  col-lg-6 row" id = "departmentDiv">
+    <label for="department" class="required-asterisk">Department</label>
+    <p class="help-block">What department is this request coming from?</p>
+    <input type="text" name="department" id="department" class="form-control" 
+      {% if form is defined %}
+        value="{{ form.department }}"
+      {% endif %}
+    required/>
+  </div>
+  
+  <div class="form-group  col-lg-offset-3  col-lg-6 row" id= "dateDiv">
+    <label for="datetimepicker0" class="required-asterisk">Date Needed</label>
+    <p class="help-block">Two weeks minimum required.</p>
+    <div class="input-group">
+      <input type="text" class="form-control" id="datetimepicker0" placeholder="MM/DD/YYYY" name="date_needed" required/>
+      <span class="input-group-addon" onlick="toggle(datetimepicker0)"><span class="glyphicon glyphicon-calendar"></span></span>
+    </div>
+  </div>
+
+  <div class="form-group col-lg-offset-3   col-lg-6 row" id="emailDiv">
+    <label for="email" class="required-asterisk">Email</label>
+    <p class="help-block">What is the preferred email for contact?</p>
+    <input type="email" name="email" id="email" class="form-control" 
+    {% if form is defined %}
+        value="{{ form.email }}"
+    {% endif %}
+    required/> 
+  </div>
+  
+  <div class="form-group  col-lg-offset-3  col-lg-6 row" id = "requestorDiv">
+    <label for="requestor[]" 
+      {% if user.is_admin %}
+        class="required-asterisk"
+      {% endif %}>
+      Additional Requestors
+    </label>
+    <a data-toggle="popover" data-content="If you would like to unselect a person, please click on them again.">
+      <span class="glyphicon glyphicon-question-sign"></span>
+    </a>
+    <p class="help-block">If any other faculty or staff member needs to be notified about the completion of this request, please select them in the area below.</p>
+    <p class="help-block">Additionally, if an individual is not present in our list please add them to the additional comments section located at the bottom.</p>
+    {% if user.is_admin %}
+      {# Our customer requested this reminder #}
+      <p class="help-block"><b>Note:</b> Since you are an adminstator for this system, this field is required for you to fill out.</p>
+    {% endif %}
+    <div class="form-group requestorSelect">
+      <select class="selectpicker form-control" name='requestor[]' id='requestor[]' multiple data-live-search='true' title="Please select additional requestors here:"
+        {% if user.is_admin %}
+          required
+        {% endif %}
+      >
+      {% if requestors is defined %}
+        {% for u in users %}
+          {% if not u.is_admin %}
+            {% if u.username != user.username %}
+              <option value = "{{u.username}}" data-subtext = "{{u.username}}" 
+                  {% for requestor in requestors %}}
+                    {% if requestor.username.username == u.username %}
+                        selected 
+                    {% endif %}
+                  {% endfor %}
+              >{{u.firstname}} {{u.lastname}}</option>
+            {% endif %}
+          {% endif%}
+        {% endfor%}
+      {% else %}
+          {% for u in users %}
+            {% if not u.is_admin %}
+              {% if u.username != user.username %}
+                    <option value="{{u.username}}" data-subtext="{{u.username}}">{{u.firstname}} {{u.lastname}}</option>
+              {% endif %}
+            {% endif%}
+         {% endfor %}
+      {% endif %}
+      </select>
+    </div>
+  </div>
+  
+  <div class = "col-lg-offset-3 col-lg-6">
+    <u><h4>Request Details</h4></u>
+  </div>
+  
+  <div id = "purposeDiv">
+    <div class="form-group col-lg-offset-3  col-lg-6 row">
+      <label for="purpose" class="required-asterisk">Purpose</label>
+      <p class="help-block">For example will it be used for an email, a survey, a mailing, or an event?</p>
+      
+      <input type="text" name="purpose" id="purpose" class="form-control" {% if form is defined %}
+          value="{{ form.purpose }}"
+        {% endif %}required/>
+    </div>
+  </div>
+
+  <div class="form-group col-lg-offset-3  col-lg-6 row" id = "outputDiv">
+    <label for="output" class="required-asterisk">Output Needed</label>
+    <p class="help-block">This is a 140 character limited description of your request.  An example would be “Need a list of email addresses for all alumni who majored in computer science."</p>
+    <input type="text" name="output" id="output" maxlength="140" class="form-control" 
+    {% if form is defined %}
+        value="{{ form.output }}"
+      {% endif %}
+    required/>      
+  </div>
+  
+  <div class="form-group  col-lg-offset-3  col-lg-6 row" id = "formatDiv">
+    <label for="format_type[]" class="required-asterisk">Format Type</label>
+    <a data-toggle="popover" data-content="If you would like to unselect a format type, please click on it again.">
+      <span class="glyphicon glyphicon-question-sign"></span>
+    </a>
+    <p class="help-block">Please select the file format for the output in the area below.</p>
+    <p class="help-block">Additionally, if a format is not in our list, please add it to the additional comments section located at the bottom.</p>
+    <div class="form-group formatTypeSelect ">
+      <select class="selectpicker form-control" name='format_type[]' multiple id='format_type[]'  title="Please select the format type here:" required>
+      {% if format_type is defined %}
+          {% for key in cfg['format_type'] %}
+            <option value = "{{cfg['format_type'][key]}}" 
+              {% for type in format_type %}
+                {% if cfg['format_type'][key] == type %}
+                   selected 
+                {% endif %}
+              {% endfor %}
+            >{{cfg['format_type'][key]}}</option>
+          {% endfor %}
+      {% else %}
+        {% for key in cfg['format_type'] %}
+          <option value =  "{{cfg['format_type'][key]}}" 
+            {% if cfg['format_type'][key] == '.xlsx' %}
+              selected 
+            {% endif %}
+          >{{cfg['format_type'][key]}}</option>     
+        {% endfor %}
+     {% endif %}
+      </select>
+    </div>
+  </div>
+  
+  <div class="form-group  col-lg-offset-3  col-lg-6 row" id = "selectionDiv">
+    <label for="selection">Selection Criteria</label>
+    <p class="help-block">For example, are you looking for information about alumni, donors, faculty/staff, or majors in a particular year? </p>
+    <input type="text" name= "selection" class="form-control" id="selection"
+      {% if form is defined %}
+        {% if form.selection %}
+          value="{{ form.selection}}"
+        {% endif %}
+      {% endif %}
+    />
+  </div>
+      
+  <div class="form-group  col-lg-offset-3  col-lg-6 row" id = "signerDiv">
+    <label for="signature" class="required-asterisk">Signer of the Letter</label>
+    <input type="text" name="signature" id="signature" class="form-control"
+    {% if form is defined %}
+        value="{{ form.signature}}"
+      {% endif %}
+    required/>
+  </div>
+
+  <div class = "col-lg-offset-3 col-lg-6">
+     <u><h4>Additional Groups</h4></u>
+  </div>
+  <div id = "addGroups">
+    <div class="form-group col-lg-offset-3  col-lg-6 row">
+      <p class="help-block">If there are additional groups needed that do not fit the current attached selection criteria, please include the information here.  This might be staff in a particular office or faculty in specific division.  If information is in the attachment, leave blank. </p>
+      <p class="help-block">If this information is located in an attachment, feel free to leave this section blank.</p>
+      <div class="checkbox checkbox-success">
+        <ul style="list-style-type:none;">
+          {% if extra_groups is defined %}
+            {% for key in cfg['extra_groups'] %}
+              <li>
+                <input type="checkbox" name="extra_groups[]" value="{{key}}" id="{{key}}" 
+                {% for group in extra_groups %}
+                  {% if key == group %}
+                  checked = "checked"
+                  {% endif %}
+                {% endfor %}
+                />
+                <label for="{{key}}">{{cfg['extra_groups'][key]}}</label>
+              </li>
+            {% endfor %}
+          {% else %}
+            {% for key in cfg['extra_groups'] %}
+              <li>
+                <input type="checkbox" name="extra_groups[]" value="{{key}}" id="{{key}}"/>
+                <label for="{{key}}">{{cfg['extra_groups'][key]}}</label>
+              </li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <div class = "col-lg-offset-3 col-lg-6">
+    <u><h4>Groups to Exclude</h4></u>
+  </div>
+  
+  <div class="form-group col-lg-offset-3  col-lg-6 row">
+    <p class="help-block">Please exclude any group below that you do not want to include in this request.  If information is in an attachment, leave blank.   </p>
+    <p class="help-block">If this information is located in an attachment, feel free to leave this section blank.</p>
+    <div class="checkbox checkbox-success">
+      <ul style="list-style-type:none;"> 
+      {% if excluded_groups is defined %}
+          {% for key in cfg['excluded_groups'] %}
+            <li>
+              <input type="checkbox" name="excluded_groups[]" value="{{key}}" id="{{key}}" 
+              {% for group in excluded_groups %}
+                {% if key == group %}
+                checked = "checked"
+                {% endif %}
+              {% endfor %}
+              />
+              <label for="{{key}}">{{cfg['excluded_groups'][key]}}</label>
+            </li>
+          {% endfor %}
+        {% else %}
+          {% for key in cfg['excluded_groups'] %}
+            <li>
+              <input type="checkbox" name="excluded_groups[]" value="{{key}}" id="{{key}}"/>
+              <label for="{{key}}">{{cfg['excluded_groups'][key]}}</label>
+            </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  
+  <div class = "form-group col-lg-offset-3 col-lg-6">
+    <u><h4>Banner</h4></u>
+  </div>
+  <div id = "bannerDiv">
+    <div class="form-group  col-lg-offset-3  col-lg-6 row">
+      <p class="help-block">Should this information be uploaded into banner?</p>
+      <div>
+        <ul style="list-style-type:none;">
+          <li>
+            
+            <div class="radio radio-primary">
+              <input type="radio" id="radio0" name="banner" value="1">
+              <label for="radio0">Yes</label>
+            </div>
+          </li>
+          <li>
+            <div class="radio radio-danger">
+              <input type="radio" id="radio1" name="banner" value="0" checked>
+              <label for="radio1">No</label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class = "col-lg-offset-3 col-lg-6">
+    <u><h4>Additional Comments</h4></u>
+  </div>
+  <div id= "commentsDiv">
+    <div class='form-group col-lg-offset-3  col-lg-6 row'>
+      <label for="additional-comments"></label>
+      <textarea rows= 4 cols = 5  name="comments" id="additional-comments" class = "form-control">{% if form is defined %}{% if form.comments is defined %}{{ form.comments}}{% endif %}{% endif %}</textarea>
+    </div>
+  </div>
+  <div id = "reviewButton" class = "col-lg-offset-3 col-lg-6" style = "margin-bottom: 15px">
+    <span type ="info" class = "btn btn-info" onclick = "validate()">Review Request</span>
+    {% include "snips/reviewRequest.html" %}
+  </div>
+  </form>
+<link rel='stylesheet' type="text/css" href='/static/css/local/form.css' />
+<script src="/static/js/local/form.js"></script>
+{% endblock %}

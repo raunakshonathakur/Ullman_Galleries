@@ -1,0 +1,94 @@
+<div class="modal fade" id="reviewRequest" role = "dialog" tabindex = "-1" aria-labeledby ="formReviewModal" >
+    <div class="modal-dialog modal-lg" role="dialogx"> 
+             <div class="modal-content">
+                    <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                         </button>
+                         <h4>Review Request</h4>
+                    </div>
+             <div class="modal-body">
+                     <div class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title">Requestor Info</h2>
+                    </div>
+            <div class="panel-body">
+            <table class="table table-striped">
+                <tr>
+                    <td>Extension/Contact Number:</td>
+                    <td id= "phoneNumber" ></td>
+                </tr>
+                <tr>
+                    <td>Department:</td>
+                    <td id = "departmentName"></td>
+                </tr>
+                <tr>
+                    <td>Date Needed:</td>
+                    <td id = "dateNeeded"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td id = "emailReview"></td>
+                </tr>
+                <tr>
+                    <td>Additional Requestors</td>
+                    <td id= "requestors"></td>
+                </tr>
+            </table>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                <h2 class="panel-title">Request Details</h2>
+                </div>
+            <div class ="panel-body">
+                <table class = "table table-striped">
+                    <tr>
+                        <td>Purpose:</td>
+                        <td id = "purposeReview"></td>
+                    </tr>
+                    <tr>
+                        <td>Output Needed</td>
+                        <td id= "outputNeeded"></td>
+                    </tr>
+                    <tr>
+                        <td>Format Type:</td>
+                        <td id = "formatType"></td>
+                    </tr>
+                    <tr>
+                        <td>Selection Criteria</td>
+                        <td id= "selectionCriteria"></td>
+                        
+                    </tr>
+                    <tr>
+                        <td>Signer of the Letter</td>
+                        <td id = "signer"></td>
+                    </tr>
+                    <tr>
+                        <td>Additional Groups</td>
+                        <td id = "additionalGroups"></td>
+                    </tr>
+                    <tr>
+                        <td>Groups to Exclude</td>
+                        <td id= "excludedGroups"></td>
+                    </tr>
+                    <tr>
+                        <td>Banner:</td>
+                        <td id = 'bannerReview'></td>
+                    </tr>
+                    <tr>
+                        <td>Additional Comments</td>
+                        <td id="comments"></td>
+                    </tr>
+                </table>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success"  data-dismiss="modal">Back</button>
+                <button type="submit" id="submit" class='btn btn-info'>Next</button>
+            </div>
+        </div>
+     </div>
+</div>
+<script src="/static/js/local/form.js"></script>

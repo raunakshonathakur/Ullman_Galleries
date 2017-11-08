@@ -1,0 +1,248 @@
+{% extends "snips/base.html" %}
+{% block body %}
+</br>
+<div class = "row">
+    <button type = "button" class = "btn btn-success pull-right" data-toggle= "modal" data-target="#copyRequest{{form.FID}}">Copy Request</button>
+    {% include "snips/copyRequest.html" %}
+</div>
+<u><center><h1>Request Form</h1></center></u>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">Request Details</h2>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Requestors</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set counter = 1 -%}
+                {% for requestor in requestors %}
+                    <tr>
+                        <td>{{counter + loop.index0}}</td>
+                        <td>{{requestor.username.firstname}}</td>
+                        <td>{{requestor.username.lastname}}</td>
+                        <td>{{requestor.username.username}}@berea.edu</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <table class="table table-striped">
+            <tr>
+                <td>Preferred Phone Contact:</td>
+                <td>{{form.phone}}</td>
+            </tr>
+            <tr>
+                <td>Preferred Email Contact:</td>
+                <td>{{form.email}}</td>
+            </tr>
+            <tr>
+                <td>For Department:</td>
+                <td>{{form.department}}</td>
+            </tr>
+            <tr>
+                <td>Submitted On:</td>
+                <td>{{form.submit_date}}</td>
+            </tr>
+            <tr>
+                <td>Expected On:</td>
+                <td>{{form.date_needed}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">Submission Infomation</h2>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <tr>
+                <td>Purpose</td>
+                <td>{{form.purpose}}</td>
+            </tr>
+            <tr>
+                <td>Output Needed</td>
+                <td>{{form.output}}</td>
+            </tr>
+            <tr>
+                <td>Format Return Type</td>
+                <td>
+                    <dt>
+                      {% for type in format_type %}
+                        <dd>{{type}}</dd>
+                      {% endfor %}
+                    </dt>
+                </td>
+            </tr>
+            <tr>
+                <td>Selection Criteria</td>
+                <td>{{form.selection}}</td>
+            </tr>
+            <tr>
+                <td>Signer of the Letter</td>
+                <td>{{form.signature}}</td>
+            </tr>
+            
+            <tr><td>Additional Groups</td>
+                <td>
+                    <dt>
+                    {% for group in extra_groups %}
+                        <dd>{{cfg['extra_groups'][group]}}</dd>
+                    {% endfor %}
+                    </dt>
+                </td>
+            </tr>
+            <tr><td>Excluded Groups</td>
+                <td>
+                    <dt>
+                    {% for group in excluded_groups %}
+                        <dd>{{cfg['excluded_groups'][group]}}</dd>
+                    {% endfor %}
+                    </dt>
+                </td>
+            </tr>
+            
+            <tr><td>Additional Comments</td>
+                <td>{{form.comments}}</td></tr>
+                
+            <tr><td>Attachments</td>
+                <td>
+                    <dt>
+                        {% if form.attachments is not none %}
+                            {% for attachment in attachments %}
+                                <dd>
+                                    <a href="/download/{{attachment}}">{{attachment}}</a>
+                                </dd>
+                            {% endfor %}
+                        {% else %}
+                            <dd>
+                                {{form.attachments}}
+                            </dd>
+                        {% endif %}
+                    </dt>
+                </td>
+            </tr> 
+            
+        </table>
+    </div>
+</div>
+
+{% if user.is_admin %}
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="panel-title">Administration Panel</h2>
+        </div>
+        <div class="panel-body">
+            <form action="/update/status/{{form.FID}}" method="post">
+                <table class="table table-striped">
+                    <tr>
+                        <td>Status:
+                            {% if form.status == "Completed" or form.status == "Cancelled" %}
+                            <a data-toggle="popover" data-content="In order to edit this request please change the status to In Progress.">
+                              <span class="glyphicon glyphicon-question-sign"></span>
+                            </a>
+                            {% endif %}
+                            <div>
+                            <select class="selectpicker col-lg-12" name="formStatus" id="formStatus">
+                                {% for status in cfg['requestStatus'] %}
+                                    <option value="{{cfg['requestStatus'][status]}}"
+                                        {% if form.status == cfg['requestStatus'][status] %}
+                                            selected = 'selected'
+                                        {% endif %}
+
+                                    >
+                                        {{cfg['requestStatus'][status]}}
+                                    </option>                            
+                                 {% endfor %}
+                            </select>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Staff Assigned:       
+                        <div>
+                         
+                        <select
+                        class="selectpicker col-lg-12" name="staffAssigned" id="staffAssigned"
+                         {% if form.status == "Completed" or form.status == "Cancelled" %} disabled {% endif %}>
+                            <option value="">Unassigned</option>
+                            {% for admin in admins %}
+                                <option value="{{admin.username}}"
+                                    {% if selected_staff.username is defined %}
+                                        {% if admin.username == selected_staff.username.username %}
+                                            selected = 'selected'
+                                        {% endif %}
+                                    {% endif %}
+                                >    
+                                {{admin.firstname}} {{admin.lastname}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            {% if notes == True %}
+                <p>Current Staff Notes</p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Staff Member</th>
+                            <th>Date</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for note in notes %}
+                        <tr>
+                            <td>{{note.username.firstname}} {{note.username.lastname}}</td>
+                            <td>{{note.date}}</td>
+                            <td> {{note.notes}} </td>
+                            {% if form.status == "New" or form.status == "In Progress" %}
+                            <td>
+                                <a href=# data-toggle= "modal" data-target="#editNote{{note.SNID}}">
+                                    <span class ="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a href=# data-toggle= "modal" data-target="#deleteNote{{note.SNID}}">
+                                    <span class ="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                            
+                          
+                        </tr>
+                        
+                        {% include "snips/deleteNote.html" %}
+                        {% include "snips/editNote.html" %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            {% if form.status == "New" or form.status == "In Progress" %}
+                <p>Staff Notes:</p>
+                <textarea class="form-control" rows="5" id="staffNotes" name="staffNotes"></textarea>
+            {% endif %}
+                <div class="panel-footer" style="background: rgba(0, 0, 0, 0)!important;">
+                    <button type='submit' class='btn btn-info'>Submit</button>
+                </div>
+            
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+<script src="/static/js/local/formReview.js"></script>
+{% endblock %}
