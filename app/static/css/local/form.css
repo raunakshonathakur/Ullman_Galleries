@@ -1,0 +1,69 @@
+.requestorSelect {
+    min-width: 100px;
+    max-width: 360px;
+}
+
+.formatTypeSelect {
+    min-width: 100px;
+    max-width: 320px
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+label.required-asterisk:after {
+    content: " *";
+    color: red;
+}
+
+/*#numberDiv {*/
+/*    clear: both;*/
+/*}*/
+#departmentDiv {
+    clear: both;
+}
+#dateDiv {
+    clear: both;
+}
+#emailDiv {
+    clear: both;
+}
+#requestorDiv {
+    clear:both;
+}
+#purposeDiv {
+    clear: both;
+}
+#outputDiv {
+    clear: both;
+}
+#formatDiv {
+    clear: both;
+}
+#selectionDiv {
+    clear: both;
+}
+#commentsDiv {
+    clear:both;
+}
+#signerDiv {
+    clear : both;
+}
+#addGroups {
+    clear: both;
+}
+#excludeDiv {
+    clear: both;
+}
+#bannerDiv {
+    clear: both;
+}
+#reviewButton {
+    clear:both;
+}
+/*.col-lg-6 {*/
+/*    clear: both;*/
+/*}*/

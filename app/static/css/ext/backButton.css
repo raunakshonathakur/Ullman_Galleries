@@ -1,0 +1,10 @@
+.inline {
+    text-align: center;
+}
+h1 {
+    display: block;
+}
+
+a {
+    float: left;
+}
