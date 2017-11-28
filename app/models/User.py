@@ -5,7 +5,7 @@ class User (baseModel):
   is_admin  = BooleanField(default=False)
   firstname = CharField(max_length=100)
   lastname  = CharField(max_length=100)
-  
+
   def __str__(self):
     return self.username
 
@@ -16,7 +16,7 @@ class UserQueries():
       return users
     except Exception as e:
       return False
-  
+
   def insert(self,username,is_admin,firstname,lastname):
     '''Purpose: An insert query to add a new user
     Args:
@@ -28,7 +28,7 @@ class UserQueries():
       status: True if successful, False if unsuccessful'''
     strings = [username,firstname,lastname]
     bools  = [is_admin]
-    if checkStrings(strings) and checkBooleans(bools): 
+    if checkStrings(strings) and checkBooleans(bools):
       try:
         user = User(username=username, is_admin=is_admin, firstname=firstname, lastname=lastname)
         user.save(force_insert=True)
@@ -48,21 +48,21 @@ class UserQueries():
         print e
         return False
     return False
-    
+
   def select_admins(self):
     try:
       admins=User.select().where(User.is_admin==True)
       return admins
     except Exception as e:
       return False
-  
+
   def select_non_admins(self):
     try:
       admins=User.select().where(User.is_admin==False)
       return admins
     except Exception as e:
       return False
-      
+
   def change_admin_status(self,username, newStatus):
     strings=[username]
     if checkStrings(strings):
@@ -74,4 +74,4 @@ class UserQueries():
       except Exception as e:
         print e
     return False
-    
+

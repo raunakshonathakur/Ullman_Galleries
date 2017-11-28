@@ -1,76 +1,15 @@
 databases:
-  advancement: "data/advancement.sqlite"
-  
+  mainDB: "data/jesson.sqlite"
+
 # For every table in the database, add an item here
 models:
   mainDB:
     - User
-    - Form
-    - Requestor
-    - StaffAssigned
-    - StaffNotes
-    
+
 paths:
   files: 'app/static/files'
-  
-navbar:
-  - title: "Archive" 
-    link: '/archive'
-  - title: "New Request"
-    link: "/form"
-  - title: "Contact Us"
-    link: "/contact"
-  - title: "Log Out"
-    link: "/logout/goes/here"
-  
-  
-admin_navbar:
-  - title: "Administrative Panel"
-    link: "/adminPanel"
-  - title: "Archive"
-    link: "/archive"
-  - title: "New Request"
-    link: "/form"
-  - title: "Log Out"
-    link: "/logout/goes/here"
-  
-requestStatus:
-  new: 'New'
-  inProgress: 'In Progress'
-  complete: 'Completed'
-  cancel: 'Cancelled'
-  
-extra_groups:
-  alumni_trustees: 'Alumni Trustees'
-  non_alumni_trustees: 'Non-Alumni Trustees'
-  staff_seed: 'Staff Seed File'
-  council_members: 'Young Alumni Advisory Council'
-  alumni_exec: 'Alumni Executive Council'
-  
-excluded_groups:
-  mail: 'No Mail'
-  visit: 'No Visit'
-  contact: 'No Contact'
-  phone_one: 'No Phone'
-  deceased: 'Deceased'
-  unknown_postal: 'Unknown Postal'
-  international: 'International Address'
-  inactive: 'Inactive Address'
-  
-format_type:
-  xlsx: '.xlsx'
-  txt: '.txt'
-  doc: '.doc'
-  pdf: '.pdf'
-  csv: '.csv'
 
 
-user:
-  # USER
-  #tmp: 'pearcej'
-  # #ADMIN
-  tmp: 'normalUser'
-  
 contributors:
   - name: "Cody Myers"
     year: 2017

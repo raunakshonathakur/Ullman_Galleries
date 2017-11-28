@@ -58,34 +58,6 @@
     <script src="/static/js/ext/bootstrap-select.js"></script>
     <link href="/static/css/ext/bootstrap-select.css"/>
   </head>
-  <!-- Checks to see if user is defined -->
-  {% if user is defined %}
-    <!-- Navbar for admins -->
-    {% if user.is_admin %}
-      <nav class="nav navbar-default" id = "admin_navbar">
-       <a class="navbar-brand" href="/">Home</a>
-        <ul class="nav navbar-nav"  id ="navbarList" >
-            {% for item in cfg['admin_navbar'] %} 
-              <li>
-                <a href ="{{item['link']}}">{{item['title']}}</a>
-              </li>
-            {% endfor %}
-        </ul>
-      </nav> 
-     <!-- Navbar for users -->
-    {% else %}
-      <nav class="nav navbar-default" id = "navbar">
-       <a class="navbar-brand" href="/">Home</a>
-          <ul class="nav navbar-nav"  id ="navbarList" >
-            {% for item in cfg['navbar'] %}
-              <li>
-                <a href ="{{item['link']}}">{{item['title']}}</a>
-              </li>
-            {% endfor %}
-          </ul>
-      </nav> 
-    {% endif %}
-  {% endif %}
   <body>
     <div class="container">
       {# All content should get rendered in here #}
