@@ -5,7 +5,7 @@ from flask import session
 
 @app.route('/', methods=["GET","POST"])
 def start():
-    return render_template('views/index.html')
+    return render_template('views/hello.html')
 
 @app.route('/contributors', methods=["GET","POST"])
 def contributors():

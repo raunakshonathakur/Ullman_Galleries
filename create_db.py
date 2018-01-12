@@ -19,16 +19,16 @@ sqlite_dbs  = [ conf['databases']['advancement']
 for fname in sqlite_dbs:
   try:
     os.remove(fname)
-    print ("Removing {0}.".format(fname))
+    print(("Removing {0}.".format(fname)))
   except OSError:
-    print OSError
+    print(OSError)
     pass
 
 # Creates DBs
 for fname in sqlite_dbs:
   if os.path.isfile(fname):
-    print ("Database {0} should not exist at this point!".format(fname))
-  print ("Creating empty SQLite file: {0}.".format(fname))
+    print(("Database {0} should not exist at this point!".format(fname)))
+  print(("Creating empty SQLite file: {0}.".format(fname)))
   open(fname, 'a').close()
   
 
@@ -43,7 +43,7 @@ def class_from_name (module_name, class_name):
 def get_classes (db):
   classes = []
   for str in conf['models'][db]:
-    print ("\tCreating model for '{0}'".format(str))
+    print(("\tCreating model for '{0}'".format(str)))
     c = class_from_name(sys.modules[__name__], str)
     classes.append(c)
   return classes

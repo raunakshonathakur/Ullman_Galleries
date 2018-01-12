@@ -23,7 +23,6 @@ class ConfigureApp():
         self.password = None
         self.secret_key = None
         self.conf = self.load_config('config.yaml')
-        self.login = None
 
     def get_abs_path(self,relaitivePath):
         filepath = os.path.join(sys.path[0],relaitivePath)
@@ -35,9 +34,9 @@ class ConfigureApp():
             for file in glob.glob(model_dir + "/*.py"):
                 ignore_list = ['__init__.py','util.py']
                 if (os.path.basename(file) not in ignore_list):
-                    print "File: {0}".format(file)
+                    print("File: {0}".format(file))
                     filenames.append(os.path.splitext(os.path.basename(file))[0])
-            print filenames
+            print(filenames)
             return filenames
 
     def import_peewee_tables(self):
@@ -47,7 +46,7 @@ class ConfigureApp():
             package = "app.models"
             peewee_table = getattr(__import__(package,fromlist=[model]), model)
             models_list.append(peewee_table)
-        print models_list
+        print(models_list)
         return models_list
 
     def load_config(self,filename):
@@ -58,130 +57,121 @@ class ConfigureApp():
         return cfg
 
     def get_db_choice(self):
-        print '[1]: SQLite\n[2]: MySQL'
-        while True:
-            user_input = raw_input('What kind of database are you using? ')
-            if (user_input.lower() == 'sqlite') or (user_input == '1'):
-                self.db_choice = 'sqlite'
-                return 'sqlite'
-            elif (user_input.lower() == 'mysql') or (user_input == '2'):
-                self.db_choice = 'mysql'
-                return 'mysql'
-            else:
-                print '\nERROR: Invaild Response\tPlease type either the name of the software of its corresponding number. eg(Sqlite or 1)'
+        self.db_choice = 'mysql'
+        return 'mysql'
+        # print('[1]: SQLite\n[2]: MySQL')
+        # while True:
+        #     user_input = input('What kind of database are you using? ')
+        #     if (user_input.lower() == 'sqlite') or (user_input == '1'):
+        #         self.db_choice = 'sqlite'
+        #         return 'sqlite'
+        #     elif (user_input.lower() == 'mysql') or (user_input == '2'):
+        #         self.db_choice = 'mysql'
+        #         return 'mysql'
+            # else:
+            #     print('\nERROR: Invaild Response\tPlease type either the name of the software of its corresponding number. eg(Sqlite or 1)')
 
     def get_secret_key(self):
-        print '\nFlask Session Cookies are cryptographically signed, which basically'
-        print 'means that in order for a user to modify a session cookie they would'
-        print 'need a secret key, which is a functionality required by this application.\n'
+        print('\nFlask Session Cookies are cryptographically signed, which basically')
+        print('means that in order for a user to modify a session cookie they would')
+        print('need a secret key, which is a functionality required by this application.\n')
         while True:
-            secret_key0 = raw_input('Therefore, what would you like the secret key to be for your application? ')
-            secret_key1 = raw_input('Please type the secret key again: ')
+            secret_key0 = input('Therefore, what would you like the secret key to be for your application? ')
+            secret_key1 = input('Please type the secret key again: ')
             if secret_key0 == secret_key1:
-                print "Thank you the secret key has been saved inside of secret.yaml, and can be changed at anypoint through modifing that file."
+                print("Thank you the secret key has been saved inside of secret.yaml, and can be changed at anypoint through modifing that file.")
                 return secret_key0
             else:
-                print 'The two secret keys did not match.'
+                print('The two secret keys did not match.')
 
     def get_db_name(self):
-        print 'Please exclude any path or extention details, eg( "data/" or ".sqlite").'
+        # print('Please exclude any path or extention details, eg( "data/" or ".sqlite").')
         while True:
-            #TODO: check for /data and .sqlite
-            db_name0 = raw_input('What would you like to name your {0} database. '.format(self.db_choice))
-            db_name1 = raw_input('Please type the name of your database again: ')
+            db_name0 = str()
+            db_name1 = str()
+            if self.db_choice == "mysql":
+                db_name0 = input('What is the name of your {0} database: '.format(self.db_choice))
+                db_name1 = input('Please type the name of your database again: ')
+            else:
+                db_name0 = input('What would you like to name your {0} database. '.format(self.db_choice))
+                db_name1 = input('Please type the name of your database again: ')
             if db_name0 == db_name1:
-                print "Your database name ({0}) will now be created.".format(db_name0)
                 return db_name0
             else:
-                print "The two database names did not match."
+                print("The two database names did not match.")
 
     def get_mysql_variables(self):
-        self.host = raw_input('What is your host? ')
-        self.username = raw_input('What should be your root username for msql? ')
-        self.password = raw_input('What should be your root passwod for mysql? ')
+        self.host = input('What is your host? ')
+        self.username = input('What is your username for msql? ')
+        self.password = input('What is your password for mysql? ')
         print ('\nIf you have entered any of these variables incorrectly, they can be changed in secret.yaml.')
 
     def edit_secret_yaml(self):
         #values_list should be ordered:
         #  [db_name,host,username,password,secret_key]
         if self.db_choice == 'sqlite':
-            secret_data = {"db":{"db_name":self.db_name, "db_choice":self.db_choice}, "secret_key":self.secret_key, "login":self.login}
+            secret_data = {"db":{"db_name":self.db_name, "db_choice":self.db_choice}, "secret_key":self.secret_key}
         else:
-            secret_data = {'db':{"db_name":self.db_name, "db_choice":self.db_choice, "host":self.host, "username":self.username, "password":self.password}, "secret_key":self.secret_key,"login":self.login}
+            secret_data = {'db':{"db_name":self.db_name, "db_choice":self.db_choice, "host":self.host, "username":self.username, "password":self.password}, "secret_key":self.secret_key,}
         #TODO: Figure out how not to hard code this
         path = os.path.join(sys.path[0],'app/config/secret.yaml')
         with open(path,'w') as outfile:
             yaml.dump(secret_data, outfile, default_flow_style=False)
 
-    def get_login_choice(self):
-        print 'Note: Password is a feature that is built into this applicaiton.'
-        print 'It is a standard password and email authentication system.\n'
-        print '[1]: Shibboleth\n[2]: Password'
-        while True:
-            user_input = raw_input('What kind of login are you using? ')
-            if (user_input.lower() == 'shibboleth') or (user_input == '1'):
-                self.login = 'shibboleth'
-                return 'shibboleth'
-            elif (user_input.lower() == 'password') or (user_input == '2'):
-                self.db_choice = 'password'
-                return 'password'
-            else:
-                print '\nERROR: Invaild Response\tPlease type either the name of the login system or its corresponding number. eg(Shibboleth or 1)'
-
     def create_sqlite_database(self):
         db_abs_path = self.get_abs_path(self.db_name)
-        print db_abs_path
+        print(db_abs_path)
 
         check = self.no_db_file()
         if check:
             self.create_file()
             self.create_tables('sqlite')
         else:
-            print 'Creation of the SQLite database has stopped.'
-        dummy_prompt = self.add_dummy_data_prompt()
-        if dummy_prompt:
-            self.add_dummy_data()
+            print('Creation of the SQLite database has stopped.')
+        # dummy_prompt = self.add_dummy_data_prompt()
+        # if dummy_prompt:
+        #     self.add_dummy_data()
 
     def create_mysql_database(self):
-        dummy_prompt = self.add_dummy_data_prompt()
-        if dummy_prompt:
-            self.create_tables('mysql')
-            self.add_dummy_data()
+        # dummy_prompt = self.add_dummy_data_prompt()
+        self.create_tables('mysql')
+        # if dummy_prompt:
+            # self.add_dummy_data()
 
     def remove_db(self):
         try:
             os.remove(self.db_name)
             db_abs_path = self.get_abs_path(self.db_name)
-            print("\t...Removing {0}.".format(db_abs_path))
+            print(("\t...Removing {0}.".format(db_abs_path)))
         except OSError:
-            print OSError
+            print(OSError)
             pass
 
     def no_db_file(self):
         if os.path.isfile(self.db_name):
-            print ("WARNING: Database ({0}) already exists in the system.".format(self.db_name))
+            print(("WARNING: Database ({0}) already exists in the system.".format(self.db_name)))
             cont = None
             while True:
                 print ('Continuing this setup will DELETE your current sqlite file')
-                user_input = raw_input('Would you like to continue? (y/n): ')
+                user_input = input('Would you like to continue? (y/n): ')
                 if (user_input.lower() == 'yes') or (user_input.lower() == 'y'):
-                    remove_db()
+                    self.remove_db()
                     return True
                 elif (user_input.lower() == 'no') or (user_input.lower() == 'n'):
                     return False
                 else:
-                    print '\nERROR: Invaild Response\tPlease respond with either yes/y or no/n.'
+                    print('\nERROR: Invaild Response\tPlease respond with either yes/y or no/n.')
         return True
 
     def add_dummy_data_prompt(self):
-        user_input = raw_input('Would you like to add some default testing data to your db? (Y/N) ')
+        user_input = input('Would you like to add some default testing data to your db? (Y/N) ')
         while True:
             if (user_input.lower() == 'y') or (user_input.lower() == 'yes'):
                 return True
             elif (user_input.lower() == 'n') or (user_input.lower()=='no'):
                 return False
             else:
-                print '\n ERROR: Invaild Response\tPlease respond with either yes/y or no/n.'
+                print('\n ERROR: Invaild Response\tPlease respond with either yes/y or no/n.')
 
     def add_dummy_data(self):
         model_filenames = self.get_model_filenames()
@@ -189,12 +179,9 @@ class ConfigureApp():
             model_path = "app"
             name = 'models'
             query_type = model+'Queries'
-            #TODO: this one might just be based off naming convention
             package = getattr(__import__(model_path,fromlist=[name]), query_type)
             if query_type == 'UserQueries':
                 user = package()
-                bad_pw_hash = generate_password_hash("BadPass")
-                print '\n This is bad pass: ({})\n'.format(bad_pw_hash)
                 user.insert('adminUser',True,'Grace','Hopper')
                 user.insert('normalUser',False,'Alan','Turning')
                 user.insert('normalUser1', False, 'Ada', 'Lovelace')
@@ -216,7 +203,7 @@ class ConfigureApp():
 
     def create_file(self):
         db_abs_path = self.get_abs_path(self.db_name)
-        print 'Creating empty SQLite file: {0}'.format(db_abs_path)
+        print('Creating empty SQLite file: {0}'.format(db_abs_path))
         open(db_abs_path, 'a').close()
         return True
 
@@ -237,7 +224,6 @@ class ConfigureApp():
 
 
     def main(self):
-        self.login        = self.get_login_choice()
         self.db_choice    = self.get_db_choice()
         self.db_name      = self.get_db_name()
         if self.db_choice == 'sqlite':

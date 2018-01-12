@@ -15,11 +15,11 @@ def getUsernameFromEnv():
   if envK in env:
     username = env[envK].split("@")[0].split('/')[-1].lower()
     add_user(env, username)
-    return username  
+    return username
   else:
     cfg = get_cfg()
     return cfg['user']['tmp']
-  
+
 def doesUserHaveRole(role):
   #TODO: Delete dummy circumstance before production
   username = getUsernameFromEnv()
@@ -37,16 +37,16 @@ def doesUserHaveRole(role):
     else:
       return False
   except Exception as e:
-    print e
+    print(e)
     return False
-    
+
 def switchRoles(Role):
   userName = getUsernameFromEnv()
   query    = User.update(role=Role).where(User.username==userName)
   query.execute()
   return True
-  
-      
+
+
 # https://realpython.com/blog/python/primer-on-python-decorators/
 
 def require_login ():
@@ -55,7 +55,7 @@ def require_login ():
   user = user.select_single(username)
   return user
 
-      
+
 
 def require_role (requiredRole):
   def decorator (fun):
@@ -65,15 +65,15 @@ def require_role (requiredRole):
         for role in requiredRole:
           print(requiredRole)
           if doesUserHaveRole(role):
-            print ("User has role: " + role)
+            print(("User has role: " + role))
             return fun(*args, **kwargs)
         abort(403)
       else:
         if doesUserHaveRole(requiredRole):
-          print ('User has role: '+ requiredRole)
+          print(('User has role: '+ requiredRole))
           return fun(*args, **kwargs)
         else:
-          print ('User does not have role: ' + requiredRole)
+          print(('User does not have role: ' + requiredRole))
           abort(403)
     return decorated_fun
   return decorator
@@ -81,7 +81,7 @@ def require_role (requiredRole):
 def add_user(env,username):
   user = UserQueries()
   is_user = user.select_single(username)
-  print is_user
+  print(is_user)
   if is_user == False:
     description = request.environ['description'].lower()
     if description != 'student':
@@ -89,7 +89,7 @@ def add_user(env,username):
         newUser= user.insert(username, False, env['givenName'], env['sn'])
         return newUser
       except Exception as e:
-        print e 
+        print(e)
         abort(403)
     else:
       abort(404)

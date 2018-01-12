@@ -1,13 +1,16 @@
-#!/user/bin/env python2
 # coding=utf-8
 
 from setuptools import setup, find_packages
 import os
 import sys
 
+if sys.version_info[0] != 3:
+    print("This script requires Python 3")
+    exit()
+
 
 path = os.path.dirname(os.path.realpath(__file__))
-print path
+print(path)
 sys.path.insert(0, path)
 
 #When setuptools run it pulls these tools from Pypi
@@ -15,15 +18,15 @@ def require_venv():
     try:
         venv_dir = (os.path.isdir('venv'))
         if venv_dir == False:
-            print 'Creating venv directory...\n'
-            os.system('virtualenv venv')
+            print('Creating venv directory...\n')
+            os.system('virtualenv --python python3 venv')
         venv_active = hasattr(sys,'real_prefix')
         if venv_active == False:
-            print 'Activating venv...\n'
+            print('Activating venv...\n')
             activate_file = "venv/bin/activate_this.py"
-            execfile(activate_file, dict(__file__=activate_file))
+            exec(compile(open(activate_file).read(), activate_file, 'exec'), dict(__file__=activate_file))
     except Exception as e:
-        print 'This setup requires virtualenv.'
+        print('This setup requires virtualenv.')
 
 INSTALL_REQUIRES = [
     "Flask>=0.11.1",
@@ -34,7 +37,6 @@ INSTALL_REQUIRES = [
     "XlsxWriter",
     "PyYAML",
     "email_validator",
-    "pyDNS",
     "Flask-Script",
     "flask-mysqldb",
     "flask-login"

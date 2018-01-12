@@ -6,6 +6,6 @@ It also includes all the application files that are used as "pages" in the app
 (e.g., "from app import start" imports all the code in start.py that is behind the start.html webpage)
 '''
 
-from allImports import *
+from .allImports import *
 from app import allImports
 from app.controllers import *

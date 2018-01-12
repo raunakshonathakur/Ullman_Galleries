@@ -13,7 +13,7 @@ def getDB ():
   theDB                 = None
 
   if db_choice  == "sqlite":
-      db_abs_path       = getAbsolutePath(cfg['databases'][dbName])
+      db_abs_path       = getAbsolutePath(cfg['databases']["mainDB"])
       theDB             = SqliteDatabase (db_abs_path, pragmas = ( ('busy_timeout',  100), ('journal_mode', 'WAL')), threadlocals = True)
   else:
       host              = secret['db']['host']

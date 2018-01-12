@@ -35,7 +35,7 @@ class UserQueries():
         return True
       except Exception as e:
         # Log Exception
-        print e
+        print(e)
     return False
 
   def select_single(self,username):
@@ -45,7 +45,7 @@ class UserQueries():
         user=User.get(User.username==username)
         return user
       except Exception as e:
-        print e
+        print(e)
         return False
     return False
 
@@ -72,6 +72,6 @@ class UserQueries():
         user.save()
         return user
       except Exception as e:
-        print e
+        print(e)
     return False
 
