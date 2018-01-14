@@ -16,10 +16,60 @@ After you have accessed your environment, we have built some scripts into the sy
 
 1. ```python setup.py install```
 2. ```. venv/bin/activate```
-3. ```python scripts/ConfigureApp.py```
+3. ``` mysql-ctl install ```
+3. ``` python scripts/ConfigureApp.py ``` - Use the creditails outputted by mysql-ctl
 4. ```python app.py```s
 
 >***Note***: If you working inside of your own linux environment you may need to change the port and host information inside of ```app.py`` the default is setup up for working inside of cloud9
+>***Note***: You may also need to setup mysql on your own.
+>***Note***: To start and stop mysql use ```mysql.server [start|stop|restart]```
+
+
+## Source Structure and Guidelines
+### Structure
+The follow is an outline of the structure of the program along with a brief 
+description of each folder.
+
+
+```
+app/
+├── __init__.py 
+├── allImports.py
+├── config                      <--- Houses all *.yaml files, which are used for configuration
+│   ├── __init__.py
+│   ├── config.yaml             <--- Default Config File
+│   ├── loadConfig.py           
+│   └── secret.yaml             <--- Stores any sensitive infomation, including database passwords, and session secret key
+│
+├── controllers                 <--- Stores all the controllers (controllers and views should have matching names)
+│   ├── __init__.py
+│   ├── hello.py                <--- A single controller, in this case it is a single page (hello)
+│
+├── logic                       <--- Stores files that are used throughout the application for validation, and authentication. ALL FILES HERE MUST BE DOcumented  
+│   ├── __init__.py
+│   ├── absolute_path.py        <--- Solution to relative path issue
+├── models                      <--- Stores the database models
+│   └── util.py                 <--- Database related models
+├── static                      <--- Static content (css/js) is stored here, the filename should match the controller/view/url that is being styled
+│   ├── css                     <--- Stores css
+│   │   ├── ext                 <--- External css libraries
+│   │   ├── fonts               <--- Fonts
+│   │   └── local               <--- Locally developed css functions
+│   └── js                      <--- Stores Javascript
+│       ├── ext                 <--- External javascript libraries
+│       └── local               <--- Locally developed javascript, the filename should match the contoller/view/url that the function operates on
+└── templates                   <--- Stores all html content
+    ├── snips                   <--- Useful bytes of html that are used thorughout the project
+    │   ├── base.html           <--- The base template that is inhereted by every page
+    │   ├── contributors.html   <--- Template housing all the contributors to the project
+    │   ├── footer.html         <--- Template used for the footer on all pages
+    └── views                   <--- Stores all pages, an effort should be made to match contoller/views/urls with the same name
+        ├── hello.html          <--- View for the hello controller
+```
+
+## Style
+- All code should be comment, in particular any code added to the logic folder must have documentation
+- Any code added should follow the pip8 standard
 
 ## Built With
 
