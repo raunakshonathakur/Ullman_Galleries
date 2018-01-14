@@ -43,8 +43,8 @@ INSTALL_REQUIRES = [
     ]
     
 def parameters():
-    name="queue_template"
-    description="A template for queue processing"
+    name="Ullman Galleries"
+    description="A gallery entry application management software"
     long_description = open("README.md").read()
     install_requires = INSTALL_REQUIRES
     packages = find_packages(where="app")

@@ -1,6 +1,6 @@
-# Advancement Queue 
-
-This template is actually a queuing system that is used by Berea College's Advancement Office. The Advancement Office uses this application to gather request and assign employees to the incoming request; however, due to the specific nature of the application we decided to open source the project as a queuing system. This queue template will provide programmers with a strong back bone for developing their own application in flask.  
+# Ullman Galleries 
+Ullman Galleries is a management tool for application entries. It provides an easy way to accept applications. Our main purpose for the system is to accept applications from artists that want to show their work in a Berea College Gallery Showing.
+  
 
 ## Getting Started
 The intial step of setting up a development environment is choosing the appropriate tool to complete the application setup.
@@ -8,28 +8,7 @@ This application requires you to have a linux environment specifically an Ubuntu
 However, if you are working out of a windows operating system during development we would recommend you use [cloud9](https://c9.io/)
 
 ### Cloud9 Setup Guide (Optional)
-As mentioned above that cloud9 is the preferred tool for our software team while developing and debugging code. However, if you are new to cloud9, they recently started requiring credit card information to create an account. Therefore, you may not want to use cloud9 as your development environment. 
-
-**Creating a workspace with access to bitbucket**
-
-After you create and log into your cloud9 account, select the tab that says wordspaces. This will lead you to an option to create a new workspace. Go ahead an add a name and description for the workspace.
-
->***Note:***
-The default for the workspace is to be public, it's important to **NOT** change this default option. The way that our system works is that it creates a virtual environment for the application to run on. The virtual environment requires the use of ports in order to access the application. If you make the workspace private, it can block these ports so that they can not be accessed. There may be a way around this; however, we just find it easier if you let the workspace be public.
-
-Next, you will want to automatically clone your this repo into your workspace. You can do this in the **Clone from Git or Mercurial URL** section.
-You do this by adding your git URL into this section:
-* Note: You can either choose to use HTTPS or SSH protocol, just make sure to copy the correct URL for your decision into this input. 
-
-
-For Example:
-``git@bitbucket.org:<username>/<name_of_Repo>.git``
-
-If you are uncertain what your git URL is you can find it at the top of the bitbucket page if you click the clone option.
->***Note***: If you copy and paste this line make sure to remove the ```git clone``` at the front in order to ensure you only get the URL.
-
-After you have entered in the URL, the last portion of the page asked you to choose a template. Please select the python option in order to have the workspace to run correctly. 
-All that is left is to hit the create workspace button and your workspace will be configured correctly.
+You can find the instruction to setting up c9 at https://docs.c9.io/docs/create-a-workspace. You should use python as the template.
 
 ### Starting up the Application
 
@@ -38,7 +17,7 @@ After you have accessed your environment, we have built some scripts into the sy
 1. ```python setup.py install```
 2. ```. venv/bin/activate```
 3. ```python scripts/ConfigureApp.py```
-4. ```python app.py```
+4. ```python app.py```s
 
 >***Note***: If you working inside of your own linux environment you may need to change the port and host information inside of ```app.py`` the default is setup up for working inside of cloud9
 
