@@ -1,4 +1,6 @@
-import os, glob
-
-modules = glob.glob(os.path.join(os.path.dirname(__file__), "*.py"))
-__all__ = [os.path.basename(f)[:-3] for f in modules if not f.endswith("__init__.py")]
+from app.models.util import *
+from app.models.Forms import *
+from app.models.Files import *
+from app.models.Galleries import *
+from app.models.Images import *
+from app.models.Users import *

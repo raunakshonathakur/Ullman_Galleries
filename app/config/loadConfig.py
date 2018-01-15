@@ -8,9 +8,12 @@ import yaml, os
 import logging
 
 def load_config(file):
-    with open(file, 'r') as ymlfile:
-        cfg = yaml.load(ymlfile)
-    return cfg
+    if os.path.exists(getAbsolutePath(file)):
+        with open(file, 'r') as ymlfile:
+            cfg = yaml.load(ymlfile)
+        return cfg
+    else:
+        return None
 
 def get_cfg():
     config_abs_path = getAbsolutePath('app/config','config.yaml')

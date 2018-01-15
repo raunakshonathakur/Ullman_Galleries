@@ -14,6 +14,7 @@ print(path)
 sys.path.insert(0, path)
 
 #When setuptools run it pulls these tools from Pypi
+os.system('git update-index --assume-unchanged app/config/secret.yaml')
 def require_venv():
     try:
         venv_dir = (os.path.isdir('venv'))

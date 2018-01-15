@@ -158,8 +158,8 @@ class ConfigureApp():
         return True
 
     def add_dummy_data_prompt(self):
-        user_input = input('Would you like to add some default testing data to your db? (Y/N) ')
         while True:
+            user_input = input('Would you like to add some default testing data to your db? (Y/N) ')
             if (user_input.lower() == 'y') or (user_input.lower() == 'yes'):
                 return True
             elif (user_input.lower() == 'n') or (user_input.lower()=='no'):
