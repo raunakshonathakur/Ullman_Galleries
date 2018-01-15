@@ -5,6 +5,7 @@ import inspect
 import hashlib
 # http://flask.pocoo.org/snippets/54/
 from werkzeug.security import generate_password_hash
+from dummy_data import load_dummy
 
 path = os.getcwd()
 test_dir = os.path.join(path,'app/config/')
@@ -86,19 +87,12 @@ class ConfigureApp():
 
     def get_db_name(self):
         # print('Please exclude any path or extention details, eg( "data/" or ".sqlite").')
-        while True:
-            db_name0 = str()
-            db_name1 = str()
-            if self.db_choice == "mysql":
-                db_name0 = input('What is the name of your {0} database: '.format(self.db_choice))
-                db_name1 = input('Please type the name of your database again: ')
-            else:
-                db_name0 = input('What would you like to name your {0} database. '.format(self.db_choice))
-                db_name1 = input('Please type the name of your database again: ')
-            if db_name0 == db_name1:
-                return db_name0
-            else:
-                print("The two database names did not match.")
+        db_name0 = str()
+        if self.db_choice == "mysql":
+            db_name0 = input('What is the name of your {0} database: '.format(self.db_choice))
+        else:
+            db_name0 = input('What would you like to name your {0} database. '.format(self.db_choice))
+        return db_name0
 
     def get_mysql_variables(self):
         self.host = input('What is your host? ')
@@ -128,15 +122,15 @@ class ConfigureApp():
             self.create_tables('sqlite')
         else:
             print('Creation of the SQLite database has stopped.')
-        # dummy_prompt = self.add_dummy_data_prompt()
-        # if dummy_prompt:
-        #     self.add_dummy_data()
+        dummy_prompt = self.add_dummy_data_prompt()
+        if dummy_prompt:
+            self.add_dummy_data()
 
     def create_mysql_database(self):
-        # dummy_prompt = self.add_dummy_data_prompt()
+        dummy_prompt = self.add_dummy_data_prompt()
         self.create_tables('mysql')
-        # if dummy_prompt:
-            # self.add_dummy_data()
+        if dummy_prompt:
+            self.add_dummy_data()
 
     def remove_db(self):
         try:
@@ -174,32 +168,8 @@ class ConfigureApp():
                 print('\n ERROR: Invaild Response\tPlease respond with either yes/y or no/n.')
 
     def add_dummy_data(self):
-        model_filenames = self.get_model_filenames()
-        for model in model_filenames:
-            model_path = "app"
-            name = 'models'
-            query_type = model+'Queries'
-            package = getattr(__import__(model_path,fromlist=[name]), query_type)
-            if query_type == 'UserQueries':
-                user = package()
-                user.insert('adminUser',True,'Grace','Hopper')
-                user.insert('normalUser',False,'Alan','Turning')
-                user.insert('normalUser1', False, 'Ada', 'Lovelace')
-                user.insert('normalUser2', False, 'Larry', 'Page')
-            elif query_type == 'FormQueries':
-               form = package()
-               form.insert('3/23/17','4/25/17','In Progress','(555)867-5309','Computer Science','We are contacting previous alumni in order to start up a program','.pdf','This is a 140 character limited description of what you are asking for','Computer Science Alumni','filename.txt','Thanks for all the hard work you do','Could you sign it Computer Science Department','alumni_trustees,non_alumni_trustees,staff_seed,council_members','mail,visit,phone,deceased','fake_example_email@gmail.com',True,None)
-            elif query_type == 'RequestorQueries':
-                requestor = package()
-                requestor.insert('normalUser',1)
-            elif query_type == 'StaffAssignedQueries':
-                staffAssigned = package()
-                staffAssigned.insert('normalUser',1)
-            elif query_type == 'StaffNotesQueries':
-                staffNotes = package()
-                staffNotes.insert('normalUser',1,'The man who broke the Enigma','5/3/17')
-            else:
-                pass
+        load_dummy()
+
 
     def create_file(self):
         db_abs_path = self.get_abs_path(self.db_name)

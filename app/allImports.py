@@ -2,6 +2,7 @@
 '''
 Include all imports in this file; it will be called at the beginning of all files.
 '''
+
 # We need a bunch of Flask stuff
 from flask import Flask
 from flask import render_template
@@ -14,13 +15,16 @@ from flask import abort
 from flask_admin import Admin
 from app.config import *
 from app.models import *
+from app.config import loadConfig
+from app.models.util import *
 
 import pprint
 import sys
 
-cfg = get_cfg()
-secret_cfg = get_secret_cfg()
+cfg = loadConfig.get_cfg()
+secret_cfg = loadConfig.get_secret_cfg()
 sys.dont_write_bytecode = True
+mainDB = getDB()
 
 ''' Creates an Flask object; @app will be used for all decorators.
 from: http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/

@@ -9,6 +9,10 @@ from flask import request, redirect, url_for, flash, abort
 import os, re
 
 def getUsernameFromEnv():
+  ''' Pulls the user's username from the environment 
+  Returns:
+    str: The user's username  
+  '''
   #TODO: Delete dummy circumstance before production
   env = request.environ
   envK = "eppn"
@@ -21,6 +25,12 @@ def getUsernameFromEnv():
     return cfg['user']['tmp']
 
 def doesUserHaveRole(role):
+  ''' Pulls the user's username from the environment 
+  Args: 
+    role (str): Checks to see if a user has a certain role
+  Returns:
+    boolean: True if user has role, false otherwise
+  '''
   #TODO: Delete dummy circumstance before production
   username = getUsernameFromEnv()
   try:
@@ -41,6 +51,12 @@ def doesUserHaveRole(role):
     return False
 
 def switchRoles(Role):
+  ''' Pulls the user's username from the environment 
+  Args: 
+    role (str): Checks to see if a user has a certain role
+  Returns:
+    boolean: True if user has role, false otherwise
+  '''
   userName = getUsernameFromEnv()
   query    = User.update(role=Role).where(User.username==userName)
   query.execute()
@@ -50,6 +66,10 @@ def switchRoles(Role):
 # https://realpython.com/blog/python/primer-on-python-decorators/
 
 def require_login ():
+  ''' Force user to login before accessing the page
+  Returns:
+    User: The resulting user object is returned
+  '''
   username = getUsernameFromEnv()
   user = UserQueries()
   user = user.select_single(username)
@@ -58,6 +78,12 @@ def require_login ():
 
 
 def require_role (requiredRole):
+  ''' Checks to see if a user has a certain role
+  Args:
+    requiredRole (str): The required roles for access to the page
+  Returns:
+    function: With a valid role, the function wrapped is returned otherwise a redirect to a 403 is given
+  '''
   def decorator (fun):
     @wraps(fun)
     def decorated_fun (*args, **kwargs):
@@ -79,6 +105,14 @@ def require_role (requiredRole):
   return decorator
 
 def add_user(env,username):
+  '''Adds a uer to the environment 
+  Args:
+    env (dict): The environment dictionary
+    username (str): The username to be added to the environment
+
+  Returns:
+    User: The newly added user is returned 
+  '''
   user = UserQueries()
   is_user = user.select_single(username)
   print(is_user)

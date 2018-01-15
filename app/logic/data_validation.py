@@ -4,18 +4,41 @@ from app.allImports import *
 
 class DataValidation():
     def check_empty_list(self,the_list):
+        '''Assures that a list not empty
+        Args:
+            the_list (list): The list to be checked
+
+        Returns:
+            list: If the list is not empty then the original list is returned otherwise None is returned
+        '''
         if the_list == []:
             return None
         else:
             return the_list
 
     def check_empty_str(self,the_string):
+        '''Assures that a string is not empty
+        Args:
+            the_string (str): The string to be checked
+
+        Returns:
+            str: If the sting is not empty then the original string is returned otherwise None is returned
+        '''
         if the_string == '':
             return None
         else:
             return the_string
 
     def list_to_csv_str(self,the_list):
+        '''Converts a list into a comma separated string
+        Args:
+            the_list (list): The list to be converted 
+
+        Returns:
+            str: If the list was not None then a string is returned otherwise None is returned
+
+            The string returned is a comma separated string of the contents of the list
+        '''
         check = self.check_empty_list(the_list)
         if not (check is None):
             csv_str = ",".join(the_list)
@@ -23,57 +46,18 @@ class DataValidation():
         return None
 
     def csv_str_to_list(self,the_string):
+        '''Converts a comma separated string into a list
+        Args:
+            the_str (str): The string to be converted 
+
+        Returns:
+            list: If the string was not None then a list is returned otherwise None is returned
+        '''
         check = self.check_empty_str(the_string)
         if not (check is None):
             new_list = the_string.split(",")
             return new_list
         return None
 
-    def create_staff_assigned_dict(self, forms, staff_assigned_obj):
-        staff_assigned_dict = dict()
-        for form in forms:
-            staff=staff_assigned_obj.find_staff(form.FID)
-            if staff == None:
-                staff_assigned_dict[form.FID] = 'Unassigned'
-            else:
-                staff_assigned_dict[form.FID] = str(staff.username.firstname) + ' ' + str(staff.username.lastname)
-        return staff_assigned_dict
-
-    def create_requestors_dict(self,forms,requestor_obj):
-        requestor_dict = dict()
-        for form in forms:
-            requestors=requestor_obj.select_users(form.FID)
-            user_list = []
-            for requestor in requestors:
-                requestor_format = str(requestor.username.firstname) + ' ' + str(requestor.username.lastname)
-                user_list.append(requestor_format)
-            requestor_dict[form.FID] = user_list
-        return requestor_dict
-
-    def create_user_dict(self,forms,requestor_obj, username):
-        requestor_dict = dict()
-        for form in forms:
-            requestors=requestor_obj.select_users(form.FID)
-            user_list = []
-            for requestor in requestors:
-                if requestor.username.username == username:
-                    requestor_format = str(requestor.username.firstname) + ' ' + str(requestor.username.lastname)
-                    user_list.append(requestor_format)
-                    requestor_dict[form.FID] = user_list
-        return requestor_dict
-
-    def create_filename_csv(self,current_csv,new_filename):
-        filename_list = self.csv_str_to_list(str(current_csv))
-        filename_list.append(new_filename)
-        filename_csv_str = self.list_to_csv_str(filename_list)
-        return filename_csv_str
-
-    def validateEmail(self, email):
-        try:
-            v = validate_email(email)
-            email = v["email"]
-            print(email)
-        except EmailNotValidError as e:
-            print((str(e)))
 
 

@@ -17,8 +17,14 @@ After you have accessed your environment, we have built some scripts into the sy
 1. ```python setup.py install```
 2. ```. venv/bin/activate```
 3. ``` mysql-ctl install ```
-3. ``` python scripts/ConfigureApp.py ``` - Use the creditails outputted by mysql-ctl
-4. ```python app.py```s
+4. ``` python scripts/ConfigureApp.py ``` 
+4. ``` Use:
+          host - localhost
+          username - Given by mysql-ctl
+          password - empty
+          database name  - Given by mysql-ctl
+   ```
+5. ```python app.py```
 
 >***Note***: If you working inside of your own linux environment you may need to change the port and host information inside of ```app.py`` the default is setup up for working inside of cloud9
 >***Note***: You may also need to setup mysql on your own.
