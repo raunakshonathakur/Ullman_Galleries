@@ -14,7 +14,7 @@ You can find the instruction to setting up c9 at https://docs.c9.io/docs/create-
 
 After you have accessed your environment, we have built some scripts into the system that will get the application up and running for you. 
 
-1. ```python setup.py install```
+1. ```python3 setup.py install```
 2. ```. venv/bin/activate```
 3. ``` mysql-ctl install ```
 4. ``` python scripts/ConfigureApp.py ``` 
