@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash
 from flask import session
 
 @app.route('/application/create', methods=["GET","POST"])
-def create():
+def application_create():
     return render_template('views/application_create.html')
 
 
