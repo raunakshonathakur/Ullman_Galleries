@@ -1,5 +1,4 @@
-# Ullman Galleries 
-Ullman Galleries is a management tool for application entries. It provides an easy way to accept applications. Our main purpose for the system is to accept applications from artists that want to show their work in a Berea College Gallery Showing.
+# Ullman Galleries Ullman Galleries is a management tool for application entries. It provides an easy way to accept applications. Our main purpose for the system is to accept applications from artists that want to show their work in a Berea College Gallery Showing.
   
 
 ## Getting Started
@@ -24,11 +23,14 @@ After you have accessed your environment, we have built some scripts into the sy
           password - empty
           database name  - Given by mysql-ctl
    ```
-5. ```python app.py```
+5. ```Follow the prompts:
+      1. Enter anything for the secret key
+      2. make sure to create the database```
+6. ```python app.py```
 
 >***Note***: If you working inside of your own linux environment you may need to change the port and host information inside of ```app.py`` the default is setup up for working inside of cloud9
 >***Note***: You may also need to setup mysql on your own.
->***Note***: To start and stop mysql use ```mysql.server [start|stop|restart]```
+>***Note***: To start and stop mysql use ```mysql-ctl [start|stop|restart]```
 
 
 ## Source Structure and Guidelines

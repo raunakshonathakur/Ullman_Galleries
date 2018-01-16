@@ -87,11 +87,8 @@ class ConfigureApp():
 
     def get_db_name(self):
         # print('Please exclude any path or extention details, eg( "data/" or ".sqlite").')
-        db_name0 = str()
-        if self.db_choice == "mysql":
-            db_name0 = input('What is the name of your {0} database: '.format(self.db_choice))
-        else:
-            db_name0 = input('What would you like to name your {0} database. '.format(self.db_choice))
+        db_name0 = 'localhost'
+        db_name0 = input('What is the name of your mysql database: '
         return db_name0
 
     def get_mysql_variables(self):
