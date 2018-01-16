@@ -26,7 +26,8 @@ After you have accessed your environment, we have built some scripts into the sy
 5. ```Follow the prompts:
       1. Enter anything for the secret key
       2. make sure to create the database```
-6. ```python app.py```
+6. ``` It seems everyone is getting an error, on the first run. Please re-run the program to have it setup properly```
+7. ```python app.py```
 
 >***Note***: If you working inside of your own linux environment you may need to change the port and host information inside of ```app.py`` the default is setup up for working inside of cloud9
 >***Note***: You may also need to setup mysql on your own.
