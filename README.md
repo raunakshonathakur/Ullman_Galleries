@@ -35,7 +35,7 @@ After you have accessed your environment, we have built some scripts into the sy
 
 >***Note***: You may also need to setup mysql on your own if you are not using cloud9
 
-### Starting the application after inital run
+### Starting the application after inital setup
 1. ```source venv/bin/activate```
 2. ```mysql-ctl start ```
 3. ```python app.py```
