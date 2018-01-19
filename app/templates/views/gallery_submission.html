@@ -1,16 +1,27 @@
 {% extends "snips/base.html" %}
 {% block body %}
+<div class="row">
+  <h1 class="text-center col-xs-12"> {{gallery.title}}</h1>
+</div>
 <div>
-  <h1 class="text-center col-xs-12"> HEADER </h1>
+  <br/>
 </div>
 <div class="row">
-</div>
-<div>
-  TEST
-  <img src="">
-</div>
-<div>
-  CONTENT
+  <div class="col-xs-12">
+    <img src="{{gallery.banner.filepath}}" class="img-responsive center-block">
+  </div> 
+  
+  <div class="col-xs-12">
+    <br/>
+  </div>
+
+  <div class="col-xs-10 col-xs-offset-1">
+    {{gallery.description | safe}}
+  </div>
 </div>
 
+<div class="row">
+  <a class="btn btn-success" href="#" role="button">Apply</a>
+  <a class="btn btn-success" href="#" role="button">Copy Link</a>
+</div>
 {% endblock %}
