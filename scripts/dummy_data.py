@@ -11,7 +11,9 @@ else:
 
 from app.models import *
 
+
 def load_dummy():
+
     Users(uid=1, username="Seth")
     Files(fid=1, filetype="pdf", form=1, filename="Seth's CV", filepath="applications/gallery_1/seth@seth.com/").save(force_insert=True)
 
@@ -23,5 +25,15 @@ def load_dummy():
 
 
 
+if __name__ == "__main__":
+    models = [Images, Forms, Galleries,Files,Users] 
+    database = getDB()
+    for model in models:
+        database.drop_table(model)
+
+    models = [Users, Files,Galleries,Forms,Images] 
+    for model in models:
+        model.create_table()
+    load_dummy()
 
 
