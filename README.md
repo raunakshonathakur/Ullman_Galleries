@@ -40,6 +40,13 @@ After you have accessed your environment, we have built some scripts into the sy
 2. ```mysql-ctl start ```
 3. ```python app.py```
 
+## Adding dummy data
+1. ```
+      Add dummy data to the scripts/dummy_data.py file
+      Please note that due to the forigen keys, the order does matter!
+      Please order them as: Users, Files,Galleries,Forms,Images
+   ```
+2. ```python scripts/dummy_data.py```
 
 ## Source Structure and Guidelines
 ### Structure
