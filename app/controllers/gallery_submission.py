@@ -7,8 +7,10 @@ from flask import session
 @app.route('/gallery/submission/<int:gid>', methods=["GET","POST"])
 def gallery_submission(gid):
     gallery = GalleryQueries.get(gid)
-    print(getUsernameFromEnv())
-    return render_template('views/gallery_submission.html', gallery=gallery)
+    is_admin = False
+    if(doesUserHaveRole('admin')):
+        is_admin = True
+    return render_template('views/gallery_submission.html', gallery=gallery, is_admin=is_admin)
 
 
 

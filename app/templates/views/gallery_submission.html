@@ -2,6 +2,10 @@
 {% block body %}
 <div class="row">
   <h1 class="text-center col-xs-12"> {{gallery.title}}</h1>
+  <div class="col-xs-12 text-center">
+    <h4>Closes: {{gallery.close_date.strftime('%Y-%m-%d')}}</h4>
+  </div>
+
 </div>
 <div>
   <br/>
@@ -21,7 +25,10 @@
 </div>
 
 <div class="row">
-  <a class="btn btn-success" href="#" role="button">Apply</a>
-  <a class="btn btn-success" href="#" role="button">Copy Link</a>
+  {% if is_admin %}
+    <a class="btn btn-success pull-right" href="#" role="button">Copy Link To Application (NOT COMPLETE)</a>
+  {% else %}
+    <a class="btn btn-success pull-right" href="#LINK" role="button">Apply</a>
+  {% endif %}
 </div>
 {% endblock %}
