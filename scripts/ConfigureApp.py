@@ -186,8 +186,7 @@ class ConfigureApp():
             database.connect()
 
         models = self.import_peewee_tables()
-        for model in models:
-            database.create_table(model,safe=True)
+        database.create_tables(models,safe=True)
 
 
 
