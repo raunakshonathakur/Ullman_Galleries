@@ -5,7 +5,7 @@ from flask import session
 
 @app.route('/application/submission', methods=["GET","POST"])
 def start():
-    return render_template('views/hello.html')
+    return render_template('views/gallery_submission.html')
 
 
 
