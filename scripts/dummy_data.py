@@ -11,29 +11,43 @@ else:
 
 from app.models import *
 
+def drop_tables():
+    models = [Images, Forms, Galleries,Files,Users] 
+    for model in models:
+        model.drop_table()
 
-def load_dummy():
+def create_tables():
+    models = [Users, Files,Galleries,Forms,Images] 
+    for model in models:
+        model.create_table()
 
+def dummy_data():
+    drop_tables()
+    create_tables()
+    load_user_data()
+    load_files_data()
+    load_galleries_data()
+    load_forms_data()
+    load_images_data()
+
+def load_user_data():
     Users(uid=1, username="adminUser").save(force_insert=True)
+
+def load_files_data():
     Files(fid=1, filetype="pdf", form=1, filename="Seth's CV", filepath="applications/gallery_1/seth@seth.com/").save(force_insert=True)
 
+def load_galleries_data():
     Galleries(gid=1, title="gallery_1", open_date="2001-01-22-11:22", close_date="2018-02-23-11:22", description="HI THIS IS A TEST", banner=1).save(force_insert=True)
 
+def load_forms_data():
     Forms(fid=1, first_name="seth", last_name="roger", street_address="101 Seth Roger Road", city="Blueburge", state="KY", email="seth@seth.com",phone_number="1234567890", website="seth.com", gallery=1, cv=1,personal_statement=1).save(force_insert=True)
 
+def load_images_data():
     Images(iid=1, form=1, fullsize=1, thumbnail=1).save(force_insert=True)
 
 
 
 if __name__ == "__main__":
-    models = [Images, Forms, Galleries,Files,Users] 
-    database = getDB()
-    for model in models:
-        database.drop_table(model)
-
-    models = [Users, Files,Galleries,Forms,Images] 
-    for model in models:
-        model.create_table()
-    load_dummy()
+    dummy_data()
 
 
