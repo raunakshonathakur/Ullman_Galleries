@@ -62,20 +62,3 @@ def csv_str_to_list(the_string):
     return None
 
 
-def check_strings(strings):
-
-def check_booleans(booleans):
-  status = True
-  for bol in booleans:
-    result = isinstance(bol,bool)
-    if result == False:
-      status = False
-  return status
-
-def check_integers(integers):
-  status = True
-  for num in integers:
-    result = isinstance(num,int)
-    if result == False:
-      status = False
-  return status
