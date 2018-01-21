@@ -112,7 +112,6 @@ class ConfigureApp():
                 print('\n ERROR: Invaild Response\tPlease respond with either yes/y or no/n.')
 
     def add_dummy_data(self):
-        load_dummy()
         # Loaded later to prevent initial load of database
         # The model dependency in load_dummy data (import * from app.models) includes utils.py, which auto sets up the connection
         from dummy_data import dummy_data
